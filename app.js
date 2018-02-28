@@ -1,10 +1,17 @@
 const Discord = require('discord.js');
+var Cleverbot = require("cleverbot-node");
+const clbot = new Cleverbot;
 const client = new Discord.Client();
+clbot.configure({botapi: "CC7f4OvTz57R7SMNH3skNoEXQMQ"});
 const settings = require('./settings.json');
 const chalk = require('chalk');
 const fs = require('fs');
 const moment = require('moment');
+const phanta = client.emojis.find("name", "phanta");
+const sql = require("sqlite");
+sql.open("./score.sqlite");
 require('./util/eventLoader')(client);
+
 
 const log = message => {
   console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${message}`);
@@ -56,6 +63,64 @@ client.elevation = message => {
   if (message.author.id === settings.ownerid) permlvl = 4;
   return permlvl;
 };
+
+client.on("message", message => {
+  if (message.author.bot) return;
+  if (message.channel.type !== "text") return;
+    if (message.content.startsWith("ping")) {
+    message.channel.send("pong!");
+  }
+
+  sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+    if (!row) {
+      sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
+    } else {
+      let curLevel = Math.floor(0.1 * Math.sqrt(row.points + 1));
+      if (curLevel > row.level) {
+        row.level = curLevel;
+        sql.run(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level} WHERE userId = ${message.author.id}`);
+        message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`);
+      }
+      sql.run(`UPDATE scores SET points = ${row.points + 1} WHERE userId = ${message.author.id}`);
+    }
+  }).catch(() => {
+    console.error;
+    sql.run("CREATE TABLE IF NOT EXISTS scores (userId TEXT, points INTEGER, level INTEGER)").then(() => {
+      sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message  .author.id, 1, 0]);
+    });
+  });
+
+  if (!message.content.startsWith(settings.prefix)) return;
+
+  if (message.content.startsWith(settings.prefix + "level")) {
+    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+      if (!row) return message.reply("Your current level is 0");
+      message.reply(`Your current level is ${row.level}`);
+    });
+  } else
+
+  if (message.content.startsWith(settings.prefix + "points")) {
+    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+      if (!row) return message.reply("sadly you do not have any points yet!");
+      message.reply(`you currently have ${row.points} points, Keep typing to earn more!`);
+    });
+  }
+});
+
+client.on("message", message => {
+   if (message.author.bot) return;
+    if (message.channel.type === "dm") {
+    clbot.write(message.content, (response) => {
+      message.channel.startTyping();
+      setTimeout(() => {
+        message.channel.send(response.output).catch(console.error);
+        message.channel.stopTyping();
+      }, Math.random() * (1 - 3) + 1 * 1000);
+    });
+  }
+});
+
+
 
 
 var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;

@@ -1,5 +1,5 @@
 exports.run = (client, message) => {
-  message.channel.send('._.')
+message.channel.send(`No Hecks, No Fricks, No Double Deckered Dicks!`);
 };
 
 exports.conf = {
@@ -10,7 +10,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'zoe',
-  description: 'Kay.....Zoe',
-  usage: 'zoe'
+  name: 'swear',
+  description: '?',
+  usage: 'swear'
 };

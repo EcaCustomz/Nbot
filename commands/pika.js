@@ -1,16 +1,16 @@
 exports.run = (client, message) => {
-  message.channel.send(`He fucked a robot`);
+message.channel.send(`who is that? `);
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ['c'],
+  aliases: [],
   permLevel: 0
 };
 
 exports.help = {
-  name: 'chief',
-  description: 'zach',
-  usage: 'chief'
+  name: 'pika',
+  description: 'who?',
+  usage: 'pika'
 };

@@ -1,7 +1,7 @@
 exports.run = (client, message) => {
-  message.channel.send('?')
+  message.channel.send('.')
     .then(msg => {
-      msg.edit(`DID YOU MEAN THE FUCKING HOKAGE?!?!`);
+      msg.edit(`Under Construction`);
     });
 };
 
@@ -13,7 +13,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'peeper',
-  description: 'HOKAGE',
-  usage: 'peeper'
+  name: 'terror',
+  description: '?',
+  usage: 'terror'
 };

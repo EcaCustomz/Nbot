@@ -1,5 +1,5 @@
 exports.run = (client, message) => {
-  message.channel.send('._.')
+message.channel.send(`http://i0.kym-cdn.com/photos/images/newsfeed/001/293/670/b7d.jpg`);
 };
 
 exports.conf = {
@@ -10,7 +10,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'zoe',
-  description: 'Kay.....Zoe',
-  usage: 'zoe'
+  name: 'lol',
+  description: 'crying',
+  usage: 'lol'
 };

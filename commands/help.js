@@ -1,5 +1,6 @@
 const settings = require('../settings.json');
 exports.run = (client, message, params) => {
+  message.channel.send (`If you want me to change your command DM @PeeperLeader#1490`)
   if (!params[0]) {
     const commandNames = Array.from(client.commands.keys());
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);

@@ -1,5 +1,5 @@
 exports.run = (client, message) => {
-  message.channel.send('._.')
+  message.channel.send('He has a 3.4 Batting average!')
 };
 
 exports.conf = {
@@ -10,7 +10,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'zoe',
-  description: 'Kay.....Zoe',
-  usage: 'zoe'
+  name: 'four',
+  description: 'Displays four\'s count',
+  usage: 'four'
 };
