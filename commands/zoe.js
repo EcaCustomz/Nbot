@@ -1,5 +1,5 @@
 exports.run = (client, message) => {
-  message.channel.send('._.')
+message.channel.send('-_-');
 };
 
 exports.conf = {

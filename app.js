@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 var Cleverbot = require("cleverbot-node");
 const clbot = new Cleverbot;
+const http = require('http');
+const express = require('express');
+const app = express();
 const client = new Discord.Client();
 clbot.configure({botapi: "CC7f4OvTz57R7SMNH3skNoEXQMQ"});
 const settings = require('./settings.json');
@@ -120,7 +123,14 @@ client.on("message", message => {
   }
 });
 
-
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
 
 
 var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
@@ -136,4 +146,4 @@ client.on('error', e => {
   console.log(chalk.bgRed(e.replace(regToken, 'that was redacted')));
 });
 
-client.login(settings.token);
+client.login(settings.token)
